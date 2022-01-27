@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'ice';
 import { Nav } from '@alifd/next';
-import { asideMenuConfig } from '../../menuConfig';
+import { asideMenuConfig, headerMenuConfig } from '../../menuConfig';
 
 const { SubNav } = Nav;
 const NavItem = Nav.Item;
@@ -74,12 +74,13 @@ function getSubMenuOrItem(item: IMenuItem, index?: number | string, auth?: any) 
 const Navigation = (props, context) => {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
 
-  const { location } = props;
+  const { location, position } = props;
   const { pathname } = location;
   const { isCollapse } = context;
+  const menuData = position === 'header' ? headerMenuConfig : asideMenuConfig;
 
   useEffect(() => {
-    const curSubNav = asideMenuConfig.find((menuConfig) => {
+    const curSubNav = menuData.find((menuConfig) => {
       return menuConfig.children && checkChildPathExists(menuConfig);
     });
 
@@ -100,6 +101,7 @@ const Navigation = (props, context) => {
       openKeys={openKeys}
       selectedKeys={[pathname]}
       defaultSelectedKeys={[pathname]}
+      direction={position === 'header' ? 'hoz' : 'ver'}
       embeddable
       activeDirection="right"
       iconOnly={isCollapse}
@@ -110,7 +112,7 @@ const Navigation = (props, context) => {
         setOpenKeys(keys);
       }}
     >
-      {getNavMenuItems(asideMenuConfig, 0, AUTH_CONFIG)}
+      {getNavMenuItems(menuData, 0, AUTH_CONFIG)}
     </Nav>
   );
 };

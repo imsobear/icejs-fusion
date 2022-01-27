@@ -79,12 +79,14 @@ export default function BasicLayout({
         <Shell.Navigation
           direction="hoz"
           style={{
-            marginRight: 10,
+            marginRight: 200,
           }}
-        />
+        >
+          <PageNav position="header" />
+        </Shell.Navigation>
         <Shell.Action />
         <Shell.Navigation>
-          <PageNav />
+          <PageNav position="sidebar" />
         </Shell.Navigation>
 
         <Shell.Content>{children}</Shell.Content>
